@@ -23,11 +23,11 @@ class App {
     const near = 0.1;
     const far = 1000;
     this.camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-    this.camera.position.set(40, 20, 40);
+    this.camera.position.set(0, 1.5, -3);
 
     // create OrbitControls
     this.controls = new OrbitControls(this.camera, this.canvas);
-    this.controls.target.set(0, 5, 0);
+    this.controls.target.set(0, 1, 0);
     this.controls.update();
 
     // create scene
@@ -64,6 +64,15 @@ class App {
     }
 
     // 그림자용 카메라는 나중에 생성
+
+    // load VRM
+    const loader = new GLTFLoader();
+    loader.load("./models/motion-girl.vrm", (gltf) => {
+      VRM.from(gltf).then((vrm) => {
+        this.scene.add(vrm.scene);
+        // console.log(vrm);
+      });
+    });
 
     window.addEventListener("resize", this.resize.bind(this), false);
     this.resize();
